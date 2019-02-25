@@ -9,21 +9,19 @@ public class Ejemplo1 {
 
 	public static void main(String[] args) {
 
-		File file = new File("datos/fichero1");
-		String cadenaAGuardar = "\ncuarta cadena";
-		
+		File file = new File("datos/fichero1.txt");
+		String cadenaAGuardar = "ñ\n";
 		if (file.exists())
 			System.out.printf("fichero %s existe%n", file.getName());
 		else {
-			System.out.println("No existe el fichero, creando el fichero.....");
+			System.out.println("No existe el fichero, creando fichero...");
 			try {
 				file.createNewFile();
 			} catch (IOException e) {
 				System.out.println("No puedo manipular el fichero");
 			}
 		}
-
-		//FORMA CLASICA
+		//FORMA CLÁSICA
 //		FileOutputStream out = null;
 //		try {
 //			out = new FileOutputStream(file);
@@ -31,26 +29,26 @@ public class Ejemplo1 {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		} finally {
-//				try {
-//					if (out != null)
+//			try {
+//				if (out != null)
 //					out.close();
-//				} catch (IOException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 //		}
-		
 		//FORMA JAVA 7
-		try (FileOutputStream out = new FileOutputStream(file, true)) { //si se le añade el true no borra la anterior cadena y añade la nueva
+		try (FileOutputStream out = new FileOutputStream(file, true);){
 			out.write(cadenaAGuardar.getBytes());
-			out.write(155);
+			out.write(256);  //no se escribe el 131, sino el byte 131
 			out.flush();
-			System.out.printf("Escrito fichero %s, con un tamaño %d bytes%n", file.getName(), file.length());
+			//System.out.println("Hecho");
+			System.out.printf("Escrito fichero %s, con un tamaño %d bytes%n",
+					file.getName(), file.length());
 		} catch (IOException e) {
-			// TODO: handle exception
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 }
